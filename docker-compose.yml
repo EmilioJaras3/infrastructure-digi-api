@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: digimon-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - DIGIMON_API_URL=https://digimon-api.com/api/v1
+    networks:
+      - soa-network
+
+  frontend:
+    build: ./frontend
+    container_name: digimon-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - backend
+    networks:
+      - soa-network
+
+networks:
+  soa-network:
+    driver: bridge
